@@ -1,149 +1,58 @@
-<!doctype html>
-
-<html lang="en">
+<!DOCTYPE html>
+<html>
+    
 <head>
-  <meta charset="utf-8">
-  <title>szarasowa</title>
-  <meta name="description" content="Simple sample website template">
-  <meta name="author" content="loremipsum@szarasowa.ovh">
-  <link rel="stylesheet" href="style.css">
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,900' rel='stylesheet' type='text/css'>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="main.js"></script>
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+    <meta charset="utf-8" >
+    <title>Sample - geoApi</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <style>
+    * {
+        font-family: Roboto;
+        font-weight: thin;
+    }
+    </style>
 </head>
+
 <body>
-  <div id="container">
-    <header>
-      <img src="img/animacja-sowa-50.gif">
-			<nav>
-				<ul>
-					<li><a href="#one">One</a></li>
-					<li><a href="#two">Two</a></li>
-					<li><a href="#three">Three</a></li>
-					<li><a href="#four">Four</a></li>
-					<li><a href="#five">Five</a></li>
-				</ul>
-			</nav>
-			<footer>
-				<a href="#"><img src="img/foot1.png" onmouseover="src='img/foot1-rainbow.png'" onmouseout="src='img/foot1.png'"></a>
-			 </footer>
-			 <div id="backToTop">
-			<div class="gototop"><br><a class="totop" href="#one">Back to top<img src="img/up.png"></a><br></div>
-		</div>
-		</header>
-    <section>
-      <h1 id="one">Szarasowa</h1>
-			<div id="flex">
-				<article>
-					<p class="right">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu lorem tincidunt, vehicula nunc nec, consequat nisi. Sed eu tempor neque. Sed vel rutrum nisi. In at nunc quis arcu efficitur consectetur quis eu turpis. Sed sagittis, erat ut faucibus euismod, augue massa consequat tellus, in varius neque urna facilisis urna. Vivamus feugiat, elit sit amet viverra auctor, velit velit porttitor urna, ut cursus urna odio at odio. Nulla quam neque, tempus et commodo porttitor, condimentum non augue. Integer blandit orci et enim elementum molestie. Duis euismod, eros eget ultrices pharetra, nunc urna imperdiet arcu, et gravida nisi nulla eu ex. Quisque quis cursus odio. Quisque pharetra nisl sed lacus condimentum euismod
-					</p>
-					<p class="left">
-						Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed quis urna vel sapien rutrum ultricies. Vivamus dapibus pharetra diam, non efficitur erat imperdiet vel. Morbi ac convallis mauris, id posuere erat. Suspendisse quis pharetra nisl. Fusce a leo quis orci tincidunt gravida a ac sem. Praesent ornare ante non lacus malesuada, lacinia tincidunt ligula hendre.
-					</p>
-				</article>
-				<div class="imgart">
-					<img src="img/307x307.jpg">
-				</div>
-			</div>
-			<hr>
-			<article>
-					<h2>Is your browser support geolocation?</h2>
-					<p id="button"><button onclick="loadDemo()">CHECK MY LOCATION</button></p>
-			</article>
-			<div id="yourLocationDiv" style="margin:0 auto; padding:8px; width: 250px; background-color: cyan; -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;">
-					<h3 id="supportGeo" >YOUR LOCATION</h3>
-					<p>
-									latitude: <span id="latitude">[..] </span>, 
-									longitude: <span id="longitude">[..] </span>, 
-									accuracy: <span id="accuracy">[..] </span>, 
-									timestamp: <span id="timestamp">[..]</span> 
-					</p>
-			
-					<div id="map" style="-webkit-transition: width 2s, height 4s; transition: width 4s, height 4s;">
-						</div>
-			</div>
+    <header style="width:80%;margin: 0 auto;">
+        <h1>Chapter 5. Using Geolocalization</h1>
+        <h2>Verification of support in the browser</h2>
+        <hr>
+        <h3 style="font-style: italic;">"HTML advance programing" by Peter Lubbers, Brian Albers, Frank Salim (c) 2011</h3>
+    </header>
 
-			<hr>
-			<h1 id="two">
-				Lørem<small><b><sup>2</sup></b></small>
-			</h1>
-			<div id="flex">
-				<article>
-					<p class="right">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu lorem tincidunt, vehicula nunc nec, consequat nisi. Sed eu tempor neque. Sed vel rutrum nisi. In at nunc quis arcu efficitur consectetur quis eu turpis. Sed sagittis, erat ut faucibus euismod, augue massa consequat tellus, in varius neque urna facilisis urna. Vivamus feugiat, elit sit amet viverra auctor, velit velit porttitor urna, ut cursus urna odio at odio. Nulla quam neque, tempus et commodo porttitor, condimentum non augue. Integer blandit orci et enim elementum molestie. Duis euismod, eros eget ultrices pharetra, nunc urna imperdiet arcu, et gravida nisi nulla eu ex. Quisque quis cursus odio. Quisque pharetra nisl sed lacus condimentum euismod
-					</p>
-					<p class="left">
-						Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed quis urna vel sapien rutrum ultricies. Vivamus dapibus pharetra diam, non efficitur erat imperdiet vel. Morbi ac convallis mauris, id posuere erat. Suspendisse quis pharetra nisl. Fusce a leo quis orci tincidunt gravida a ac sem. Praesent ornare ante non lacus malesuada, lacinia tincidunt ligula hendre.
-					</p>
-				</article>
-				<div class="imgart">
-					<img src="img/307x307.jpg">
-				</div>
-			</div>
-			<hr>
-			<h1 id="three">
-				thr<b><b>eee</b></b>
-			</h1>
-			<div id="flex">
-				<article>
-					<p class="right">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu lorem tincidunt, vehicula nunc nec, consequat nisi. Sed eu tempor neque. Sed vel rutrum nisi. In at nunc quis arcu efficitur consectetur quis eu turpis. Sed sagittis, erat ut faucibus euismod, augue massa consequat tellus, in varius neque urna facilisis urna. Vivamus feugiat, elit sit amet viverra auctor, velit velit porttitor urna, ut cursus urna odio at odio. Nulla quam neque, tempus et commodo porttitor, condimentum non augue. Integer blandit orci et enim elementum molestie. Duis euismod, eros eget ultrices pharetra, nunc urna imperdiet arcu, et gravida nisi nulla eu ex. Quisque quis cursus odio. Quisque pharetra nisl sed lacus condimentum euismod
-					</p>
-					<p class="left">
-						Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed quis urna vel sapien rutrum ultricies. Vivamus dapibus pharetra diam, non efficitur erat imperdiet vel. Morbi ac convallis mauris, id posuere erat. Suspendisse quis pharetra nisl. Fusce a leo quis orci tincidunt gravida a ac sem. Praesent ornare ante non lacus malesuada, lacinia tincidunt ligula hendre.
-					</p>
-				</article>
-				<div class="imgart">
-					<img src="img/307x307.jpg">
-				</div>
-			</div>
-			<hr>
-			<h1 id="four" style="border:1px solid #000">
-				Four
-			</h1>
-			<div id="flex">
-				<article>
-					<p class="right">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu lorem tincidunt, vehicula nunc nec, consequat nisi. Sed eu tempor neque. Sed vel rutrum nisi. In at nunc quis arcu efficitur consectetur quis eu turpis. Sed sagittis, erat ut faucibus euismod, augue massa consequat tellus, in varius neque urna facilisis urna. Vivamus feugiat, elit sit amet viverra auctor, velit velit porttitor urna, ut cursus urna odio at odio. Nulla quam neque, tempus et commodo porttitor, condimentum non augue. Integer blandit orci et enim elementum molestie. Duis euismod, eros eget ultrices pharetra, nunc urna imperdiet arcu, et gravida nisi nulla eu ex. Quisque quis cursus odio. Quisque pharetra nisl sed lacus condimentum euismod
-					</p>
-					<p class="left">
-						Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed quis urna vel sapien rutrum ultricies. Vivamus dapibus pharetra diam, non efficitur erat imperdiet vel. Morbi ac convallis mauris, id posuere erat. Suspendisse quis pharetra nisl. Fusce a leo quis orci tincidunt gravida a ac sem. Praesent ornare ante non lacus malesuada, lacinia tincidunt ligula hendre.
-					</p>
-				</article>
-				<div class="imgart">
-					<img src="img/307x307.jpg">
-				</div>
-			</div>
-			<hr>
-			<h1 id="five">
-				<sup><u>high</u></sup>five
-			</h1>
-			<div id="flex">
-				<article>
-					<p class="right">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu lorem tincidunt, vehicula nunc nec, consequat nisi. Sed eu tempor neque. Sed vel rutrum nisi. In at nunc quis arcu efficitur consectetur quis eu turpis. Sed sagittis, erat ut faucibus euismod, augue massa consequat tellus, in varius neque urna facilisis urna. Vivamus feugiat, elit sit amet viverra auctor, velit velit porttitor urna, ut cursus urna odio at odio. Nulla quam neque, tempus et commodo porttitor, condimentum non augue. Integer blandit orci et enim elementum molestie. Duis euismod, eros eget ultrices pharetra, nunc urna imperdiet arcu, et gravida nisi nulla eu ex. Quisque quis cursus odio. Quisque pharetra nisl sed lacus condimentum euismod
-					</p>
-					<p class="left">
-						Lørem malesuada fames ac ante ipsum primis in faucibus. Sed quis urna vel sapien rutrum ultricies. Vivamus dapibus pharetra diam, non efficitur erat imperdiet vel. Morbi ac convallis mauris, id posuere erat. Suspendisse quis pharetra nisl. Fusce a leo quis orci tincidunt gravida a ac sem. Praesent ornare ante non lacus malesuada, lacinia tincidunt ligula hendre.
-					</p>
-				</article>
-				<div class="imgart">
-					<img src="img/307x307.jpg">
-				</div>
-			</div>
-	</div>
+    <section style="background-color: #fff; -webkit-filter: invert(100%); filter: invert(100%); width:80%; margin: 0 auto; border-bottom: 2px solid #000;">
+        <article style="margin:16px;">
+            <div style="padding-top: 16px; padding-left: 5%; padding-right:16px;">
+            <h2>Is your browser support geolocation?</h2>
 
-	<script>
+            <p id="button">Use button to start function <button onclick="loadDemo()">Check it out</button></p>
+            
+            <h2 id="supportGeo">...</h2>
+            </div>
+            <div id="yourLocationDiv" style="margin:0 auto; padding:8px; width: 250px; background-color: tomato; -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;"><center>
+                <h3>YOUR LOCATION</h3>
+                <p style="text-align: left">
+                        latitude: <span id="latitude">[..]</span><br>
+                        longitude: <span id="longitude">[..]</span><br>
+                        accuracy: <span id="accuracy">[..]</span><br>
+                        timestamp: <span id="timestamp">[..]</span>
+                </p>
+                <div id="map" style="padding: 4px; -webkit-filter: invert(100%); filter: invert(100%); -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;">
+                </div>
+            </center>
+            </div>
+        </article>
+    </section>
+    
+    <script>
             function loadDemo() {
                 if(navigator.geolocation) {
+                    document.getElementById("supportGeo").innerHTML = "Yes, Your browser is compatible with Geolocation. :)";
                     getCoordinates();
                     document.getElementById('button').style.visibility = 'hidden';
                 } else {
-                    document.getElementById("supportGeo").innerHTML = "Your browser is notcompatible with Geolocation.";
+                    document.getElementById("supportGeo").innerHTML = "No! Your browser is notcompatible with Geolocation. :(";
                 }
             };
             
@@ -157,9 +66,9 @@
                 var accuracy = position.coords.accuracy;
                 var timestamp = position.timestamp;
 
-                document.getElementById('latitude').innerHTML = latitude + ', ';
-                document.getElementById('longitude').innerHTML = longitude + ', ';
-                document.getElementById('accuracy').innerHTML = accuracy + ', ';
+                document.getElementById('latitude').innerHTML = latitude;
+                document.getElementById('longitude').innerHTML = longitude;
+                document.getElementById('accuracy').innerHTML = accuracy;
                 document.getElementById('timestamp').innerHTML = timestamp;
 
                 // developers.google.com
@@ -173,8 +82,8 @@
                 map: map
                 });
 
-								document.getElementById('map').style.height = '250px'
-								document.getElementById('yourLocationDiv').style.width = '95%'
+                document.getElementById('yourLocationDiv').style.width = '95%'
+                document.getElementById('map').style.height = '250px'
             }
 
             function handleLocationError(error) {
