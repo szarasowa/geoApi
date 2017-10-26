@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
     
+<html lang="en">
 <head>
     <meta charset="utf-8" >
     <title>Sample - geoApi</title>
+    <meta name="author" content="loremipsum@szarasowa.ovh">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+	<script src="JS.js"></script>
     <style>
     * {
         font-family: Roboto;
         font-weight: thin;
     }
-    </style>
+    </style> 
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 </head>
 
 <body>
@@ -30,27 +36,43 @@
             
             <h2 id="supportGeo">...</h2>
             </div>
-            <div id="yourLocationDiv" style="margin:0 auto; padding:8px; width: 250px; background-color: tomato; -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;"><center>
-                <h3>YOUR LOCATION</h3>
+            <div id="yourLocationDiv" style="margin:0 auto; padding:8px; width: 250px; background-color: tomato; -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;">
+                <center><h3>YOUR LOCATION</h3></center>
                 <p style="text-align: left">
                         latitude: <span id="latitude">[..]</span><br>
                         longitude: <span id="longitude">[..]</span><br>
                         accuracy: <span id="accuracy">[..]</span><br>
                         timestamp: <span id="timestamp">[..]</span>
                 </p>
-                <div id="map" style="padding: 4px; -webkit-filter: invert(100%); filter: invert(100%); -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;">
+                <button id="buttonMap" onclick="loadMap();"
+                style="
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0s, opacity 0.5s linear;
+                "
+                >MAP</button>
+                <div id="map" style="padding: 4px; 
+                height:0px; 
+                -webkit-filter: invert(100%); 
+                filter: invert(100%); 
+                -webkit-transition: width 4s, height 4s; 
+                transition: width 4s, height 4s;"
+                >
                 </div>
-            </center>
             </div>
         </article>
     </section>
-    
     <script>
-            function loadDemo() {
+    
+    var lati;
+           var lang;
+           var mapIsShowed = false;
+           function loadDemo() {
+                document.getElementById("supportGeo").innerHTML = "...";
                 if(navigator.geolocation) {
                     document.getElementById("supportGeo").innerHTML = "Yes, Your browser is compatible with Geolocation. :)";
                     getCoordinates();
-                    document.getElementById('button').style.visibility = 'hidden';
+                    // document.getElementById('button').style.visibility = 'hidden';
                 } else {
                     document.getElementById("supportGeo").innerHTML = "No! Your browser is notcompatible with Geolocation. :(";
                 }
@@ -59,20 +81,65 @@
             function getCoordinates() {
                 navigator.geolocation.getCurrentPosition(updateLocation, handleLocationError);
             }
-
+    
             function updateLocation(position) {
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                var accuracy = position.coords.accuracy;
-                var timestamp = position.timestamp;
-
+                 var latitude = position.coords.latitude;
+                 var longitude = position.coords.longitude;
+                 var accuracy = position.coords.accuracy;
+                 var timestamp = position.timestamp;
+    
                 document.getElementById('latitude').innerHTML = latitude;
                 document.getElementById('longitude').innerHTML = longitude;
                 document.getElementById('accuracy').innerHTML = accuracy;
                 document.getElementById('timestamp').innerHTML = timestamp;
 
+                document.getElementById('buttonMap').style.visibility = 'visible';
+                document.getElementById('buttonMap').style.opacity = '1';
+
+                lati = latitude;
+                lang = longitude;
+    
+                // src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-y7evGr60gYrQTPcM4sB-AReeAMupe58&callback=initMap";
+
+                // initMap(latitude, longitude);
+    
+            }
+
+            function loadMap() {
+                if (mapIsShowed) {
+                    document.getElementById('yourLocationDiv').style.width = '250px';
+                    document.getElementById('map').style.height = '0px';
+                    mapIsShowed = false;
+                } else {
+                // document.getElementById('map').src = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyD-y7evGr60gYrQTPcM4sB-AReeAMupe58&@'+lati+','+lang;
+                document.getElementById('yourLocationDiv').style.width = '95%';
+                document.getElementById('map').style.height = '50vh';
+                document.getElementById('map').style.visibility = 'visible';
+                mapIsShowed = true;
+                }
+            }
+    
+            function handleLocationError(error) {
+                switch(error.code) {
+                    case 0 :
+                        updateStatus("Podczas pobierania aktualizacji wystąpił błąd: (ERROR MESSAGE:)" + error.message);
+                        break;
+                    case 2 :
+                        updateStatus("Przeglądarka nie uzyskała informacji o lokalizacji: "
+                        + "(BROWSER HAS NOT RECEIVED ANY LOCATION INFORMATION:)" 
+                        + blad.message);
+                        break;
+                    case 3 :
+                        updateStatus("Maksymalny czas pobierania danych został przekroczony. (Timeout.)" + error.message);
+                        break;
+                }
+            }
+    
+            function initMap(){
+                var laa = lati;
+                var lgg = lang;
                 // developers.google.com
-                var uluru = {lat: latitude, lng: longitude};
+                var uluru = {lat: laa, lng: lgg};
                 var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 10,
                 center: uluru
@@ -81,33 +148,12 @@
                 position: uluru,
                 map: map
                 });
-
-                document.getElementById('yourLocationDiv').style.width = '95%'
-                document.getElementById('map').style.height = '250px'
+                callLink();
             }
 
-            function handleLocationError(error) {
-                switch(error.code) {
-                    case 0 :
-                        updateStatus("Podczas pobierania aktualizacji wystąpił błąd: (ERROR MESSAGE:)" + error.message);
-                        break;
-                    case 1 :
-                        updateStatus("Użytkownik odmówił. (Block by User.)" + error.message);
-                        break;
-                    case 2 :
-                        updateStatus("Przeglądarka nie uzyskała informacji o lokalizacji: "
-                        + "(BROWSER HAS NOT RECEIVED ANY LOCATION INFORMATION:)" 
-                        + error.message);
-                        break;
-                    case 3 :
-                        updateStatus("Maksymalny czas pobierania danych został przekroczony. (Timeout.)" + error.message);
-                        break;
-                }
-            }
-
-    </script>    
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
     </script>
-</body>
+    <script
+        src="https://maps.googleapis.com/maps/api/"
+    }></script>
+</body>  
 </html>
