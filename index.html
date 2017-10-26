@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="utf-8" >
+    <title>Sample - geoApi</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <style>
+    * {
+        font-family: Roboto;
+        font-weight: thin;
+    }
+    </style>
+</head>
+
+<body>
+    <header style="width:80%;margin: 0 auto;">
+        <h1>Chapter 5. Using Geolocalization</h1>
+        <h2>Verification of support in the browser</h2>
+        <hr>
+        <h3 style="font-style: italic;">"HTML advance programing" by Peter Lubbers, Brian Albers, Frank Salim (c) 2011</h3>
+    </header>
+
+    <section style="background-color: #fff; -webkit-filter: invert(100%); filter: invert(100%); width:80%; margin: 0 auto; border-bottom: 2px solid #000;">
+        <article style="margin:16px;">
+            <div style="padding-top: 16px; padding-left: 5%; padding-right:16px;">
+            <h2>Is your browser support geolocation?</h2>
+
+            <p id="button">Use button to start function <button onclick="loadDemo()">Check it out</button></p>
+            
+            <h2 id="supportGeo">...</h2>
+            </div>
+            <div style="margin:0 auto; padding:8px; max-width: 250px; background-color: tomato;"><center>
+                <h3>YOUR LOCATION</h3>
+                <p style="text-align: left">
+                        latitude: <span id="latitude">[..]</span><br>
+                        longitude: <span id="longitude">[..]</span><br>
+                        accuracy: <span id="accuracy">[..]</span><br>
+                        timestamp: <span id="timestamp">[..]</span>
+                </p>
+                <div id="map" style="padding: 4px; min-height: 250px; -webkit-filter: invert(100%); filter: invert(100%);">
+                </div>
+            </center>
+            </div>
+        </article>
+    </section>
+    
+    <script>
+            function loadDemo() {
+                if(navigator.geolocation) {
+                    document.getElementById("supportGeo").innerHTML = "Yes, Your browser is compatible with Geolocation. :)";
+                    getCoordinates();
+                    document.getElementById('button').style.visibility = 'hidden';
+                } else {
+                    document.getElementById("supportGeo").innerHTML = "No! Your browser is notcompatible with Geolocation. :(";
+                }
+            };
+            
+            function getCoordinates() {
+                navigator.geolocation.getCurrentPosition(updateLocation, handleLocationError);
+            }
+
+            function updateLocation(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                var timestamp = position.timestamp;
+
+                document.getElementById('latitude').innerHTML = latitude;
+                document.getElementById('longitude').innerHTML = longitude;
+                document.getElementById('accuracy').innerHTML = accuracy;
+                document.getElementById('timestamp').innerHTML = timestamp;
+
+                // developers.google.com
+                var uluru = {lat: latitude, lng: longitude};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: uluru
+                });
+                var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+                });
+            }
+
+            function handleLocationError(error) {
+                switch(error.code) {
+                    case 0 :
+                        updateStatus("Podczas pobierania aktualizacji wystąpił błąd: (ERROR MESSAGE:)" + error.message);
+                        break;
+                    case 1 :
+                        updateStatus("Użytkownik odmówił. (Block by User.)" + error.message);
+                        break;
+                    case 2 :
+                        updateStatus("Przeglądarka nie uzyskała informacji o lokalizacji: "
+                        + "(BROWSER HAS NOT RECEIVED ANY LOCATION INFORMATION:)" 
+                        + error.message);
+                        break;
+                    case 3 :
+                        updateStatus("Maksymalny czas pobierania danych został przekroczony. (Timeout.)" + error.message);
+                        break;
+                }
+            }
+
+    </script>    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-y7evGr60gYrQTPcM4sB-AReeAMupe58&callback=initMap">
+    </script>
+</body>
+</html>
