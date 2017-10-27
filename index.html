@@ -6,12 +6,11 @@
     <meta charset="utf-8" >
     <title>Sample - geoApi</title>
     <meta name="author" content="loremipsum@szarasowa.ovh">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
 	<script src="JS.js"></script>
     <style>
     * {
         font-family: Roboto;
-        font-weight: thin;
     }
     </style> 
   <!--[if lt IE 9]>
@@ -21,10 +20,10 @@
 
 <body>
     <header style="width:80%;margin: 0 auto;">
-        <h1>Chapter 5. Using Geolocalization</h1>
+        <h1><a href='https://szarasowa.ovh/'><b>../</b></a> Chapter 5. Using Geolocalization</h1>
         <h2>Verification of support in the browser</h2>
         <hr>
-        <h3 style="font-style: italic;">"HTML advance programing" by Peter Lubbers, Brian Albers, Frank Salim (c) 2011</h3>
+        <h3 style="font-style: italic;">"HTML5 advance programing" by Peter Lubbers, Brian Albers, Frank Salim (c) 2011</h3>
     </header>
 
     <section style="background-color: #fff; -webkit-filter: invert(100%); filter: invert(100%); width:80%; margin: 0 auto; border-bottom: 2px solid #000;">
@@ -32,13 +31,23 @@
             <div style="padding-top: 16px; padding-left: 5%; padding-right:16px;">
             <h2>Is your browser support geolocation?</h2>
 
-            <p id="button">Use button to start function <button onclick="loadDemo()">Check it out</button></p>
+            <h4 id="button">Use button to start function <button onclick="loadDemo()">Check it out</button></h4>
             
             <h2 id="supportGeo">...</h2>
             </div>
-            <div id="yourLocationDiv" style="margin:0 auto; padding:8px; width: 250px; background-color: tomato; -webkit-transition: width 4s, height 4s; transition: width 4s, height 4s;">
-                <center><h3>YOUR LOCATION</h3></center>
-                <p style="text-align: left">
+            <div id="yourLocationDiv" 
+            style="
+            margin:0 auto; 
+            width: 250px; 
+            background-color: tomato; 
+            -webkit-transition: all 4s ease;
+            -moz-transition: all 4s ease;
+            -ms-transition: all 4s ease;
+            -o-transition: all 4s ease;
+            transition: all 4s ease;
+            ">
+                <center><h3 style="padding-top: 16px">YOUR LOCATION</h3></center>
+                <p style="text-align: left; padding-left: 8px">
                         latitude: <span id="latitude">[..]</span><br>
                         longitude: <span id="longitude">[..]</span><br>
                         accuracy: <span id="accuracy">[..]</span><br>
@@ -49,21 +58,26 @@
                 visibility: hidden;
                 opacity: 0;
                 transition: visibility 0s, opacity 0.5s linear;
-                "
-                >MAP</button>
-                <div id="map" style="padding: 4px; 
+                ">
+                MAP</button>
+                <div id="map" 
+                style="
+                visibility: hidden;
                 height:0px; 
                 -webkit-filter: invert(100%); 
                 filter: invert(100%); 
-                -webkit-transition: width 4s, height 4s; 
-                transition: width 4s, height 4s;"
-                >
+                -webkit-transition: all 4s ease;
+                -moz-transition: all 4s ease;
+                -ms-transition: all 4s ease;
+                -o-transition: all 4s ease;
+                transition: all 4s ease;
+                ">                    
                 </div>
             </div>
         </article>
     </section>
     <script>
-    
+    var showedMap = false;
     var lati;
            var lang;
            var mapIsShowed = false;
@@ -72,7 +86,6 @@
                 if(navigator.geolocation) {
                     document.getElementById("supportGeo").innerHTML = "Yes, Your browser is compatible with Geolocation. :)";
                     getCoordinates();
-                    // document.getElementById('button').style.visibility = 'hidden';
                 } else {
                     document.getElementById("supportGeo").innerHTML = "No! Your browser is notcompatible with Geolocation. :(";
                 }
@@ -98,24 +111,24 @@
 
                 lati = latitude;
                 lang = longitude;
-    
-                // src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-y7evGr60gYrQTPcM4sB-AReeAMupe58&callback=initMap";
-
-                // initMap(latitude, longitude);
-    
             }
 
             function loadMap() {
+                var mapDiv = document.getElementById('map');
+
                 if (mapIsShowed) {
                     document.getElementById('yourLocationDiv').style.width = '250px';
-                    document.getElementById('map').style.height = '0px';
+                    mapDiv.style.height = '0px';
+                    mapDiv.style.visibility = 'hidden';
                     mapIsShowed = false;
                 } else {
-                // document.getElementById('map').src = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyD-y7evGr60gYrQTPcM4sB-AReeAMupe58&@'+lati+','+lang;
                 document.getElementById('yourLocationDiv').style.width = '95%';
-                document.getElementById('map').style.height = '50vh';
-                document.getElementById('map').style.visibility = 'visible';
+                mapDiv.style.height = '50vh';
+                mapDiv.style.visibility = 'visible';
                 mapIsShowed = true;
+                window.setTimeout(function() { 
+                    addScriptMap('https://maps.googleapis.com/maps/api/js?key=&callback=initMap');
+                } , 4000);
                 }
             }
     
@@ -134,12 +147,22 @@
                         break;
                 }
             }
+
+            function addScriptMap(path) {
+                if (showedMap == false) {
+                var head = document.getElementsByTagName("head")[0];
+                var s = document.createElement("script");
+                s.setAttribute('id', 'scriptMap');
+                s.type = 'text/javascript';
+                s.src = path;
+                head.appendChild(s);
+                showedMap = true;
+                }
+            }
     
             function initMap(){
-                var laa = lati;
-                var lgg = lang;
                 // developers.google.com
-                var uluru = {lat: laa, lng: lgg};
+                var uluru = {lat: lati, lng: lang};
                 var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 10,
                 center: uluru
@@ -152,8 +175,5 @@
             }
 
     </script>
-    <script
-        src="https://maps.googleapis.com/maps/api/"
-    }></script>
 </body>  
 </html>
