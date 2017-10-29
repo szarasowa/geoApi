@@ -7,26 +7,88 @@
     <title>Sample - geoApi</title>
     <meta name="author" content="loremipsum@szarasowa.ovh">
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
-	<script src="JS.js"></script>
     <style>
-    * {
-        font-family: Roboto;
-    }
-    </style> 
+        * {
+            font-family: Roboto;
+        }
+        a {
+            font-style: italic;
+        }
+    </style>  
+    <style media="handheld, only screen and (max-device-width: 999px)">
+        * {
+            font-size: 4vh;
+        }
+        
+        #yourLocationDiv    {
+        margin:0 auto; 
+            width: 100%; 
+            background-color: tomato; 
+        }
+
+        button{
+        
+            width: 100%;
+                min-height: 72px;
+        }
+    </style>
+    <style media="only screen and (min-device-width: 999px)">
+        #yourLocationDiv    {
+        margin:0 auto; 
+            width: 250px; 
+            background-color: tomato; 
+            -webkit-transition: all 4s ease;
+            -moz-transition: all 4s ease;
+            -ms-transition: all 4s ease;
+            -o-transition: all 4s ease;
+            transition: all 4s ease;
+        }
+        #map {
+            -webkit-transition: all 4s ease;
+            -moz-transition: all 4s ease;
+            -ms-transition: all 4s ease;
+            -o-transition: all 4s ease;
+            transition: all 4s ease;
+        }
+        nav {
+            -webkit-transition: all 2s ease;
+            -moz-transition: all 2s ease;
+            -ms-transition: all 2s ease;
+            -o-transition: all 2s ease;
+            transition: all 2s ease;
+        }
+    </style>
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 </head>
 
 <body>
-    <header style="width:80%;margin: 0 auto;">
-        <h1><a href='https://szarasowa.ovh/'><b>../</b></a> Chapter 5. Using Geolocalization</h1>
+    <header style="width:80%;margin:0 auto;">
+            <button onClick="showNav()">≡  Fast links</button>
+        <nav id="navID"
+        style="
+        display: none;
+        width: 80%;
+        ">               
+            <ul style="background-color: azure;">
+                <li>Main site<br><a href='https://szarasowa.ovh/index.html'>szarasowa.ovh</i></a></li><hr>
+                <li> Geo api html5 {<small>fulfilled assumptions</small>}<br><a href='https://szarasowa.ovh/geoAPI/index.html'><tt>geoAPI/index.html</tt></a></li><hr>
+                <li> jQuery Mobile {<small>infant</small>}<br><a href='https://szarasowa.ovh/jqmobile/index.html'><tt>jqmobile/index.html</tt></a></li><hr>
+            </ul>
+        </nav>
+        <h1><a href="https://szarasowa.ovh/index.html"><b>../</b></a> Chapter 5. Using Geolocalization</h1>
         <h2>Verification of support in the browser</h2>
         <hr>
         <h3 style="font-style: italic;">"HTML5 advance programing" by Peter Lubbers, Brian Albers, Frank Salim (c) 2011</h3>
     </header>
 
-    <section style="background-color: #fff; -webkit-filter: invert(100%); filter: invert(100%); width:80%; margin: 0 auto; border-bottom: 2px solid #000;">
+    <section style="width:80%;margin:0 auto;
+    background-color: #fff; 
+    -webkit-filter: invert(100%); 
+    filter: invert(100%); 
+    margin: 0 auto; 
+    border-bottom: 2px solid #000;">
         <article style="margin:16px;">
             <div style="padding-top: 16px; padding-left: 5%; padding-right:16px;">
             <h2>Is your browser support geolocation?</h2>
@@ -35,17 +97,7 @@
             
             <h2 id="supportGeo">...</h2>
             </div>
-            <div id="yourLocationDiv" 
-            style="
-            margin:0 auto; 
-            width: 250px; 
-            background-color: tomato; 
-            -webkit-transition: all 4s ease;
-            -moz-transition: all 4s ease;
-            -ms-transition: all 4s ease;
-            -o-transition: all 4s ease;
-            transition: all 4s ease;
-            ">
+            <div id="yourLocationDiv" >
                 <center><h3 style="padding-top: 16px">YOUR LOCATION</h3></center>
                 <p style="text-align: left; padding-left: 8px">
                         latitude: <span id="latitude">[..]</span><br>
@@ -66,19 +118,18 @@
                 height:0px; 
                 -webkit-filter: invert(100%); 
                 filter: invert(100%); 
-                -webkit-transition: all 4s ease;
-                -moz-transition: all 4s ease;
-                -ms-transition: all 4s ease;
-                -o-transition: all 4s ease;
-                transition: all 4s ease;
                 ">                    
                 </div>
             </div>
         </article>
     </section>
+
     <script>
-    var showedMap = false;
-    var lati;
+        var showedMap = false;
+        var lati;
+        //  Take width of 'yourLocationDiv' during code loading, as constant to return.
+        var intElemOffsetWidth = document.getElementById('yourLocationDiv').style.width;
+
            var lang;
            var mapIsShowed = false;
            function loadDemo() {
@@ -116,8 +167,15 @@
             function loadMap() {
                 var mapDiv = document.getElementById('map');
 
+                var valueOfTimeOut;
+                if (screen.width > 900) {
+                    valueOfTimeOut = 4000;
+                } else {
+                    valueOfTimeOut = 1;
+                }
+
                 if (mapIsShowed) {
-                    document.getElementById('yourLocationDiv').style.width = '250px';
+                    document.getElementById('yourLocationDiv').style.width = intElemOffsetWidth;
                     mapDiv.style.height = '0px';
                     mapDiv.style.visibility = 'hidden';
                     mapIsShowed = false;
@@ -126,9 +184,10 @@
                 mapDiv.style.height = '50vh';
                 mapDiv.style.visibility = 'visible';
                 mapIsShowed = true;
-                window.setTimeout(function() { 
-                    addScriptMap('https://maps.googleapis.com/maps/api/js?key=&callback=initMap');
-                } , 4000);
+                    window.setTimeout(function() { 
+                        addScriptMap('https://maps.googleapis.com/maps/api/js?key=YOURKEY&callback=initMap');
+                    } , 
+                    valueOfTimeOut);
                 }
             }
     
@@ -172,6 +231,18 @@
                 map: map
                 });
                 callLink();
+            }
+
+            function showNav() {
+
+                switch (document.getElementById('navID').style.display) {
+                    case 'none' :
+                    document.getElementById('navID').style.display = 'initial';
+                        break;
+                    case 'initial' :
+                    document.getElementById('navID').style.display = 'none';
+                        break;
+                }
             }
 
     </script>
