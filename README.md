@@ -29,4 +29,3 @@
             }
 
 ---
-test https://szarasowa.ovh/geoAPI/index.html
